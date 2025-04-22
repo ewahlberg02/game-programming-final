@@ -11,8 +11,9 @@ public class Player : MonoBehaviour
     int player_defense;
     int player_attack;
     float player_heal_modifier = 1.0f;
-    int player_xp;
-    int player_level;
+    public float player_xp;
+    public int player_level;
+    public float pickup_range = 0.75f;
 
     void Update()
     {
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
         transform.position += playerMoveVector * Time.deltaTime * player_speed;
     }
 
-    void initialize_stats(){
+    public void initialize_stats(){
         player_max_health = 10;
         player_current_health = player_max_health;
         player_defense = 1;
@@ -35,29 +36,38 @@ public class Player : MonoBehaviour
         player_attack = 1;
     }
 
-    void take_damage(int damage){
+    public void take_damage(int damage){
         damage -= player_defense;
         Mathf.Clamp(damage, 0, 5000);
         player_current_health -= damage;
     }
 
-    void heal(float heal_amount){
+    public void heal(float heal_amount){
         heal_amount *= player_heal_modifier;
         Mathf.Round(heal_amount);
         int heal = Convert.ToInt32(heal_amount);
         player_current_health += heal;
     }
 
-    void stat_increase(){
+    public void stat_increase(){
         return;
+    }
+
+    public void add_xp(int xp_value){
+        player_xp += xp_value;
+        if (player_xp >= xp_to_level()){
+            level_up();
+        }
     }
 
     void level_up(){ // Call if player_xp > xp_needed
+        player_xp -= xp_to_level();
+        player_level++;
         return;
     }
 
-    private float xp_to_level(int level){
-        float xp_needed = Mathf.Pow(level, 2); 
+    private float xp_to_level(){
+        float xp_needed = Mathf.Pow(player_level, 2); 
         return xp_needed;
     }
 }
