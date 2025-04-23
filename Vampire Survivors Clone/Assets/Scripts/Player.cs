@@ -6,14 +6,19 @@ public class Player : MonoBehaviour
 {
 
     int player_current_health;
-    int player_max_health;
-    int player_speed = 1;
-    int player_defense;
-    int player_attack;
-    float player_heal_modifier = 1.0f;
-    public float player_xp;
+    public int player_max_health;
+    public int player_speed = 1;
+    public int player_defense;
+    public int player_attack;
+    public float player_heal_modifier;
+    public int player_xp;
     public int player_level;
-    public float pickup_range = 0.75f;
+    public float pickup_range;
+
+    void Start()
+    {
+        initialize_stats();        
+    }
 
     void Update()
     {
@@ -34,6 +39,9 @@ public class Player : MonoBehaviour
         player_defense = 1;
         player_speed = 1;
         player_attack = 1;
+        player_heal_modifier = 1.0f;
+        pickup_range = 0.75f;
+        player_level = 1;
     }
 
     public void take_damage(int damage){
@@ -49,8 +57,30 @@ public class Player : MonoBehaviour
         player_current_health += heal;
     }
 
-    public void stat_increase(){
-        return;
+    public void stat_increase(string stat){
+        int increase_value_int = (player_level / 10) + 1;
+        float increase_value_float = (float)player_level / 10;
+        Debug.Log(increase_value_float);
+        switch (stat){
+            case "attack":
+                player_attack += increase_value_int;
+                break;
+            case "speed":
+                player_speed += increase_value_int;
+                break;
+            case "hp":
+                player_max_health += increase_value_int;
+                break;
+            case "defense":
+                player_defense += increase_value_int;
+                break;
+            case "pickup":
+                pickup_range += increase_value_float * 5;
+                break;
+            case "heal_mod":
+                player_heal_modifier += increase_value_float;
+                break;
+        }
     }
 
     public void add_xp(int xp_value){
@@ -61,9 +91,10 @@ public class Player : MonoBehaviour
     }
 
     void level_up(){ // Call if player_xp > xp_needed
-        player_xp -= xp_to_level();
+        int xp_needed = (int)xp_to_level();
+        player_xp -= xp_needed;
         player_level++;
-        return;
+        // show level up screen
     }
 
     private float xp_to_level(){
