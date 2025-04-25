@@ -47,3 +47,4 @@ MonoBehaviour:
   sprite: {fileID: -7145104043123571981, guid: a3189eab342b79c4493c71866c7ecd83, type: 3}
   projPrefab: {fileID: -1026459462654967242, guid: 1149d4b0991c5da43af747480763e2c0, type: 3}
   weaponId: 3
+  level: 1

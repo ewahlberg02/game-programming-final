@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class BowArrow : Weapon
@@ -35,15 +36,15 @@ public class BowArrow : Weapon
 
     private IEnumerator fireArrow() {
         for (int i = 0; i < numArrows; i++) {
-            Weapon_Projectile proj = Instantiate(projPrefab);
+            Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
+            double angle = i * (Math.PI * 2 / (double)numArrows);
+            proj.Direction = new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0f);
+            
             proj.Damage = damage;
             proj.Speed = projSpeed;
             proj.Lifetime = projLifetime;
             proj.affectedGravity = affectedGravity;
             proj.visualSprite = sprite;
-
-            double angle = i * (Math.PI * 2 / (double)numArrows);
-            proj.Direction = new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0f);
 
             projectiles.Add(proj);
             yield return new WaitForSeconds( 0.5f / numArrows);
@@ -57,6 +58,6 @@ public class BowArrow : Weapon
         fireRate = Mathf.Clamp(fireRate * 0.95f, 0.05f, 10);
         projSpeed *= 1.05f;
         projLifetime *= 1.1f;
-        numArrows++;
+        numArrows += 1;
     }
 }

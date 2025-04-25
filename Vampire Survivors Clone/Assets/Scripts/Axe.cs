@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Axe : Weapon
@@ -16,6 +18,8 @@ public class Axe : Weapon
 
     void Update()
     {
+        Debug.Log($"Local Position: {transform.localPosition}, World Position: {transform.position}");
+
         canFire = cooldown <= 0.0f;
         cooldown -= Time.deltaTime;
 
@@ -28,14 +32,14 @@ public class Axe : Weapon
         cooldown = fireRate;
         canFire = false;
 
-        Weapon_Projectile proj = Instantiate(projPrefab);
+        Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
+        proj.Direction = Vector3.up + new Vector3(UnityEngine.Random.Range(-2f,2f), 0);
+        
         proj.Damage = damage;
         proj.Speed = projSpeed;
         proj.Lifetime = projLifetime;
         proj.affectedGravity = affectedGravity;
         proj.visualSprite = sprite;
-
-        proj.Direction = Vector3.up + new Vector3(Random.Range(-2f,2f), 0);
 
         projectiles.Add(proj);
     }
@@ -45,7 +49,7 @@ public class Axe : Weapon
         level += 1;
         damage += 5 * level;
         fireRate = Mathf.Clamp(fireRate * 0.95f, 0.05f, 10);
-        projSpeed *= 1.15f;
+        projSpeed = Mathf.Clamp(projSpeed * 1.08f, 0.5f, 4f);
         projLifetime *= 1.1f;
     }
 }

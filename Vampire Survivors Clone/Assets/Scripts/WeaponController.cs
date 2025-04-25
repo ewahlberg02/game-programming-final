@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    List<Weapon> weapons = new List<Weapon>();
+    public List<Weapon> weapons = new List<Weapon>();
 
     public void Update()
     {
+        
+
+
         foreach (Weapon weapon in weapons) {
             if(weapon.CanFire) {
                 weapon.fire();
@@ -14,16 +17,26 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void AddWeapon(Weapon weapon) {
-        // if weapon is already obtained, level it up.
+    public bool HoldingWeaponId(int id) {
         foreach (Weapon w in weapons) {
-            if (w.WeaponId == weapon.WeaponId) {
+            if (w.WeaponId == id)
+                return true;
+        }
+        return false;
+    }
+
+    public void LevelWeaponWithId(int id) {
+        foreach (Weapon w in weapons) {
+            if (w.WeaponId == id) {
                 w.levelIncrease();
                 return;
             }
         }
+    }
 
-        // otherwise add it
+    public void AddWeapon(Weapon weapon) {
         weapons.Add(weapon);
+        weapon.transform.parent = gameObject.transform;
+        weapon.transform.position = gameObject.transform.position;
     }
 }

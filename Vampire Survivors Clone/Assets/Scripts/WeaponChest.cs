@@ -8,12 +8,20 @@ public class WeaponChest : MonoBehaviour
     {
         GameObject collidedObject = collision.gameObject;
         if (collidedObject.tag == "Player"){
-            WeaponController controller = collidedObject.GetComponent<WeaponController>();
+            WeaponController controller = collidedObject.GetComponentInChildren<WeaponController>();
             if(!controller) return;
 
             int randomIndex = Random.Range(0, availableWeapons.Length);
-            Weapon createdWeapon = Instantiate(availableWeapons[randomIndex]);
-            controller.AddWeapon(createdWeapon);
+            Weapon createdWeapon = availableWeapons[randomIndex];
+            if (!controller.HoldingWeaponId(createdWeapon.WeaponId)) {
+                Weapon weapon = Instantiate(createdWeapon);
+                controller.AddWeapon(weapon);
+            }
+            else {
+                controller.LevelWeaponWithId(createdWeapon.WeaponId);
+            }
+            
+            Destroy(gameObject);
         }
     }
 }

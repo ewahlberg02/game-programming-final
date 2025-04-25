@@ -22,7 +22,7 @@ abstract public class Weapon : MonoBehaviour
     }
 
     public int WeaponId {
-        get {return WeaponId; }
+        get {return weaponId; }
     }
 
     abstract public void fire();

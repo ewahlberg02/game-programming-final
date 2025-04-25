@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3566316471020199515}
   - component: {fileID: 4162437655572480281}
   m_Layer: 0
-  m_Name: BowWeaponChest
+  m_Name: ShovelChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 6004726093148896001, guid: 7fd59fc08a17f7444a2b9c59867479a8, type: 3}
-  m_Color: {r: 0.57276547, g: 0.4509434, b: 1, a: 1}
+  m_Color: {r: 0.51886785, g: 1, b: 0.81846416, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableWeapons:
-  - {fileID: 2190608425947719431, guid: 168bb6bf46cf50a4bbd50c4163312efa, type: 3}
+  - {fileID: 4228975531250114594, guid: 72834ec8281f6aa49b0651cf2695373a, type: 3}
 --- !u!61 &4162437655572480281
 BoxCollider2D:
   m_ObjectHideFlags: 0
