@@ -4,7 +4,8 @@ using UnityEngine;
 public class xp_item : MonoBehaviour
 {
     [SerializeField] int xp_value;
-    [SerializeField] int speed;
+    [SerializeField] int speed = 1;
+
     void Update()
     {
         move_to_player();
@@ -25,10 +26,11 @@ public class xp_item : MonoBehaviour
         Vector3 player_position = player.transform.position;
         Vector3 item_position = gameObject.transform.position;
         float distance = Mathf.Sqrt(Mathf.Pow(item_position.x - player_position.x, 2) + Mathf.Pow(item_position.y - player_position.y, 2));
-
         Vector3 moveVector = player_position - item_position;
+        Debug.Log(moveVector);
+
         if (distance <= player.pickup_range){
-            transform.position += moveVector * Time.deltaTime * speed;
+            gameObject.transform.position += moveVector * Time.deltaTime * speed;
         }
     }
 }

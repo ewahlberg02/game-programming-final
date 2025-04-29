@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5991993760836289370}
   - component: {fileID: 3169235887727582109}
   - component: {fileID: 4221633157533733349}
+  - component: {fileID: -5530569125187861323}
   m_Layer: 5
   m_Name: attack
   m_TagString: Untagged
@@ -121,8 +122,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: levelUp, Assembly-CSharp
+      - m_Target: {fileID: -5530569125187861323}
+        m_TargetAssemblyTypeName: levelUpButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -133,6 +134,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5530569125187861323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695700816260190712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8689d48ec4a401045b8e629830e1aae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: attack
 --- !u!1 &5789878936363667345
 GameObject:
   m_ObjectHideFlags: 0
