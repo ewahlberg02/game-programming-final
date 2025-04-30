@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
     public int player_xp;
     public int player_level;
     public float pickup_range;
-    [SerializeField] levelUp levelUpScreen; 
+    [SerializeField] levelUp levelUpScreen;
+    [SerializeField] xpBarScript XPBar;
     public float xp_need;
 
     void Start()
@@ -91,6 +92,7 @@ public class Player : MonoBehaviour
         if (player_xp >= xp_to_level()){
             level_up();
         }
+        XPBar.UpdateInterface();
     }
 
     public void level_up(){ // Call if player_xp > xp_needed
