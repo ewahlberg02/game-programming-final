@@ -18,8 +18,6 @@ public class Axe : Weapon
 
     void Update()
     {
-        Debug.Log($"Local Position: {transform.localPosition}, World Position: {transform.position}");
-
         canFire = cooldown <= 0.0f;
         cooldown -= Time.deltaTime;
 
