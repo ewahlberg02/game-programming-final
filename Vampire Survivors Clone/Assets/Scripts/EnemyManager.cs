@@ -143,8 +143,9 @@ public class EnemyManager : MonoBehaviour
     }
 
     private Vector3 RandomSpawnPoint() {
-        float x = player.transform.position.x + dist_away * Mathf.Cos(UnityEngine.Random.Range(0, 2 * (float)Math.PI));
-        float y = player.transform.position.y + dist_away * Mathf.Sin(UnityEngine.Random.Range(0, 2 * (float)Math.PI));
+        float angle = UnityEngine.Random.Range(0, 2 * (float)Math.PI);
+        float x = player.transform.position.x + dist_away * Mathf.Cos(angle);
+        float y = player.transform.position.y + dist_away * Mathf.Sin(angle);
         return new Vector3(x, y, 0f);
     }
 }
