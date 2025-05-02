@@ -46,13 +46,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void SetStats(int _level, int _max_health, int _damage, float _speed, float _size = 0.25f) {
+    public void SetStats(int _level, int _max_health, int _damage, float _speed, float _size) {
         level = _level;
         max_health = _max_health;
         damage = _damage;
         speed = _speed;
         size =_size;
+
         AmplifyStatsByLevel();
+        health = max_health;
+        gameObject.transform.localScale = new Vector3(size, size, 0f);
     }
 
     private void AmplifyStatsByLevel() {
@@ -62,9 +65,7 @@ public class Enemy : MonoBehaviour
         damage = (int)(damage * amplify);
         speed *= amplify;
         size *= amplify;
-        attack_range = size + 0.02f;
-
-        health = max_health;
+        attack_range = size / 7.0f;
     }
 
     private IEnumerator AttackPlayer() {
@@ -101,10 +102,6 @@ public class Enemy : MonoBehaviour
             renderer.color = Color.Lerp(renderer.color, Color.clear, i/10.0f);
             yield return new WaitForSeconds(0.05f);
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Something entered me");
+        Destroy(gameObject);
     }
 }

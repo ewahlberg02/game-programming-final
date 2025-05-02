@@ -57,3 +57,5 @@ MonoBehaviour:
   - {fileID: 4807775697852972887, guid: c0066937a6a443849848833fcf199c49, type: 3}
   - {fileID: -4409446715219994729, guid: 4f3c9aba21835ff4796ffbe99c855543, type: 3}
   - {fileID: 6426566509724856983, guid: 92d29054bc569db43b25e91c100c75de, type: 3}
+  points: 0
+  dist_away: 3
