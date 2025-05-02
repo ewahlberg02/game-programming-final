@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] float size = 0.25f;
     [SerializeField] float attack_range = 0.3f;    
     [SerializeField] float attack_cooldown = 0.5f;
+    [SerializeField] float attack_windup = 0.15f;
     private bool can_attack = true;
 
     private new SpriteRenderer renderer;
@@ -44,6 +45,10 @@ public class Enemy : MonoBehaviour
         if (can_attack && dist_away <= attack_range) {
             StartCoroutine(AttackPlayer());
         }
+
+        if (dist_away > 5.0f) {
+            Destroy(gameObject);
+        }
     }
 
     public void SetStats(int _level, int _max_health, int _damage, float _speed, float _size) {
@@ -70,6 +75,13 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator AttackPlayer() {
         can_attack = false;
+        yield return new WaitForSeconds(attack_windup);
+
+        Vector3 target_position = player.transform.position;
+        float dist_away = Vector3.Distance(transform.position, target_position);
+        if (dist_away <= attack_range) {
+            player.SendMessage("take_damage", damage);
+        }
 
         yield return new WaitForSeconds(attack_cooldown);
         can_attack = true;
