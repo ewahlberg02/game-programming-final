@@ -65,4 +65,14 @@ public class Weapon_Projectile : MonoBehaviour
             direction.Normalize();
         }
     }
+
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        var collidedObject = collision.gameObject;
+        if (collidedObject.tag == "Enemy") {
+            collidedObject.SendMessage("TakeDamage", damage);
+            Destroy(gameObject);
+        }
+    }
 }
