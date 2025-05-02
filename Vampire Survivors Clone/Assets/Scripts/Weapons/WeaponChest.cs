@@ -3,6 +3,7 @@ using UnityEngine;
 public class WeaponChest : MonoBehaviour
 {
     [SerializeField] Weapon[] availableWeapons;
+    public ChestManager manager;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,7 +21,7 @@ public class WeaponChest : MonoBehaviour
             else {
                 controller.LevelWeaponWithId(createdWeapon.WeaponId);
             }
-            
+            manager.RemoveChest(this);
             Destroy(gameObject);
         }
     }

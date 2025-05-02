@@ -7,6 +7,7 @@ abstract public class Weapon : MonoBehaviour
     [SerializeField]protected Weapon_Projectile projPrefab;
     [SerializeField]protected int weaponId;
 
+    protected Player player;
     protected int level = 1;
     protected int damage = 1;
     protected float fireRate = 1f;

@@ -8,6 +8,7 @@ public class Shovel : Weapon
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         level = 1;
         damage = 15;
         fireRate = 1f;
@@ -36,7 +37,7 @@ public class Shovel : Weapon
             proj.Direction = Vector3.right;
         }
 
-        proj.Damage = damage;
+        proj.Damage = damage + player.player_attack;
         proj.Speed = projSpeed;
         proj.Lifetime = projLifetime;
         proj.affectedGravity = affectedGravity;
