@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,13 +8,16 @@ public class Player : MonoBehaviour
 
     int player_current_health;
     public int player_max_health;
-    public int player_speed = 1;
+    public float player_speed = 1f;
     public int player_defense;
     public int player_attack;
     public float player_heal_modifier;
     public int player_xp;
     public int player_level;
     public float pickup_range;
+    [SerializeField] levelUp levelUpScreen;
+    [SerializeField] xpBarScript XPBar;
+    public float xp_need;
 
     void Start()
     {
@@ -22,6 +26,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        xp_need = xp_to_level();
         player_movement();
     }
 
@@ -60,13 +65,12 @@ public class Player : MonoBehaviour
     public void stat_increase(string stat){
         int increase_value_int = (player_level / 10) + 1;
         float increase_value_float = (float)player_level / 10;
-        Debug.Log(increase_value_float);
         switch (stat){
             case "attack":
                 player_attack += increase_value_int;
                 break;
             case "speed":
-                player_speed += increase_value_int;
+                player_speed += increase_value_float;
                 break;
             case "hp":
                 player_max_health += increase_value_int;
@@ -75,7 +79,7 @@ public class Player : MonoBehaviour
                 player_defense += increase_value_int;
                 break;
             case "pickup":
-                pickup_range += increase_value_float * 5;
+                pickup_range += increase_value_float;
                 break;
             case "heal_mod":
                 player_heal_modifier += increase_value_float;
@@ -88,16 +92,19 @@ public class Player : MonoBehaviour
         if (player_xp >= xp_to_level()){
             level_up();
         }
+        XPBar.UpdateInterface();
     }
 
-    void level_up(){ // Call if player_xp > xp_needed
+    public void level_up(){ // Call if player_xp > xp_needed
         int xp_needed = (int)xp_to_level();
         player_xp -= xp_needed;
         player_level++;
-        // show level up screen
+        levelUpScreen.gameObject.SetActive(true);
+        levelUpScreen.initialize();
+        
     }
 
-    private float xp_to_level(){
+    public float xp_to_level(){
         float xp_needed = Mathf.Pow(player_level, 2); 
         return xp_needed;
     }
