@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] float attack_cooldown = 0.5f;
     private bool can_attack = true;
 
-    private SpriteRenderer renderer;
+    private new SpriteRenderer renderer;
     private bool damage_indicator = false;
 
 
@@ -46,7 +46,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void SetStats(int _max_health, int _damage, float _speed, float _size = 0.25f) {
+    public void SetStats(int _level, int _max_health, int _damage, float _speed, float _size = 0.25f) {
+        level = _level;
         max_health = _max_health;
         damage = _damage;
         speed = _speed;
