@@ -7,6 +7,7 @@ public class Dagger : Weapon
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         level = 1;
         damage = 5;
         fireRate = 0.5f;
@@ -31,7 +32,7 @@ public class Dagger : Weapon
         Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
         proj.Direction = new Vector3(UnityEngine.Random.Range(-10f, 10f), UnityEngine.Random.Range(-10f, 10f), 0f);
         
-        proj.Damage = damage;
+        proj.Damage = damage + player.player_attack;
         proj.Speed = projSpeed;
         proj.Lifetime = projLifetime;
         proj.affectedGravity = affectedGravity;

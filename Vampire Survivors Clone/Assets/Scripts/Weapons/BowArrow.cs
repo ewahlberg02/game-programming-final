@@ -10,6 +10,7 @@ public class BowArrow : Weapon
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         level = 1;
         damage = 8;
         fireRate = 3f;
@@ -40,7 +41,7 @@ public class BowArrow : Weapon
             double angle = i * (Math.PI * 2 / (double)numArrows);
             proj.Direction = new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0f);
             
-            proj.Damage = damage;
+            proj.Damage = damage + player.player_attack;
             proj.Speed = projSpeed;
             proj.Lifetime = projLifetime;
             proj.affectedGravity = affectedGravity;

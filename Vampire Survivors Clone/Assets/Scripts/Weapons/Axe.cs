@@ -8,6 +8,7 @@ public class Axe : Weapon
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         level = 1;
         damage = 30;
         fireRate = 2f;
@@ -18,8 +19,6 @@ public class Axe : Weapon
 
     void Update()
     {
-        Debug.Log($"Local Position: {transform.localPosition}, World Position: {transform.position}");
-
         canFire = cooldown <= 0.0f;
         cooldown -= Time.deltaTime;
 
@@ -35,7 +34,7 @@ public class Axe : Weapon
         Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
         proj.Direction = Vector3.up + new Vector3(UnityEngine.Random.Range(-2f,2f), 0);
         
-        proj.Damage = damage;
+        proj.Damage = damage + player.player_attack;
         proj.Speed = projSpeed;
         proj.Lifetime = projLifetime;
         proj.affectedGravity = affectedGravity;
