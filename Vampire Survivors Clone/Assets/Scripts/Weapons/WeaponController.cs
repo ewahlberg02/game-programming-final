@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    [SerializeField] InventroyController inventory;
     public List<Weapon> weapons = new List<Weapon>();
 
     public void Update()
@@ -38,5 +39,6 @@ public class WeaponController : MonoBehaviour
         weapons.Add(weapon);
         weapon.transform.parent = gameObject.transform;
         weapon.transform.position = gameObject.transform.position;
+        inventory.updateInventory(weapon);
     }
 }

@@ -16,6 +16,11 @@ abstract public class Weapon : MonoBehaviour
     protected bool canFire = true;
     protected bool affectedGravity = false;
 
+    public int Level
+    {
+        get { return level; }
+    }
+
     protected List<Weapon_Projectile> projectiles = new List<Weapon_Projectile>();
 
     public bool CanFire {

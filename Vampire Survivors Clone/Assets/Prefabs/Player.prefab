@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1cfc3132fe7d91488ef7fc2c6400152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 6298087955255539168}
   weapons: []
 --- !u!1 &1722381799407514302
 GameObject:
@@ -144,6 +145,7 @@ GameObject:
   - component: {fileID: 7269350038328223992}
   - component: {fileID: 4885169525848347059}
   - component: {fileID: 7246714255825384762}
+  - component: {fileID: 6298087955255539168}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -188,6 +190,9 @@ MonoBehaviour:
   player_xp: 0
   player_level: 0
   pickup_range: 1
+  levelUpScreen: {fileID: 0}
+  XPBar: {fileID: 0}
+  xp_need: 0
 --- !u!61 &4885169525848347059
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -261,3 +266,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6298087955255539168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722381799407514302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8df7620b4797354290188cde9296352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  inventoryPanel: {fileID: 0}
+  slotPrefab: {fileID: 0}
+  itemPrefabs: []
+  ItemLevelText: {fileID: 0}
