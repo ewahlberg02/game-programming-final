@@ -10,29 +10,29 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] Sprite[] advEnemySprites;
 
     [SerializeField] int points = 0;
-    private float point_acrue_interval = 0.1f;
+    [SerializeField] float point_acrue_interval = 0.1f;
     private float last_acrue_time = 0f;
 
-    private float min_spawn_interval = 0.66f;
+    [SerializeField] float min_spawn_interval = 0.66f;
     private float last_spawn_time = 0f;
 
-    private float min_heavy_spawn_interval = 3.5f;
+    [SerializeField] float min_heavy_spawn_interval = 3.5f;
     private float last_heavy_spawn_time = 0f;
 
-    private float min_adv_spawn_interval = 15f;
+    [SerializeField] float min_adv_spawn_interval = 15f;
     private float last_adv_spawn_time = 0f;
 
-    private float stat_increm_interval = 8f;
+    [SerializeField] float stat_increm_interval = 8f;
     private float last_stat_increm = 0f;
 
-    private int base_max_health = 25;
-    private int base_damage = 4;
-    private float base_speed = 0.5f;
-    private float base_size = 1f;
+    [SerializeField] int base_max_health = 25;
+    [SerializeField] int base_damage = 4;
+    [SerializeField] float base_speed = 0.5f;
+    [SerializeField] float base_size = 1f;
 
-    private int increm_health = 5;
-    private int increm_damage = 1;
-    private float increm_speed = 0.002f;
+    [SerializeField] int increm_health = 5;
+    [SerializeField] int increm_damage = 1;
+    [SerializeField] float increm_speed = 0.002f;
 
     private GameObject player;
     [SerializeField] float dist_away = 2f;
