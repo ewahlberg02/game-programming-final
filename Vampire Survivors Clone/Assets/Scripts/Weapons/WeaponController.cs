@@ -30,6 +30,7 @@ public class WeaponController : MonoBehaviour
         foreach (Weapon w in weapons) {
             if (w.WeaponId == id) {
                 w.levelIncrease();
+                inventory.LevelUpWeapon(w);
                 return;
             }
         }
