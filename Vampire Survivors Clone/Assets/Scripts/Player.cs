@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    int player_current_health;
+    public int player_current_health;
     public int player_max_health;
     public float player_speed = 1f;
     public int player_defense;
@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public float pickup_range;
     [SerializeField] levelUp levelUpScreen;
     [SerializeField] xpBarScript XPBar;
+    [SerializeField] HealthBar hpBar;
     public float xp_need;
 
     void Start()
@@ -47,12 +48,14 @@ public class Player : MonoBehaviour
         player_heal_modifier = 1.0f;
         pickup_range = 0.75f;
         player_level = 1;
+        hpBar.SetMaxHealth();
     }
 
     public void take_damage(int damage){
         damage -= player_defense;
         Mathf.Clamp(damage, 0, 5000);
         player_current_health -= damage;
+        hpBar.SetCurrentHealth();
     }
 
     public void heal(float heal_amount){
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
         Mathf.Round(heal_amount);
         int heal = Convert.ToInt32(heal_amount);
         player_current_health += heal;
+        hpBar.SetCurrentHealth();
     }
 
     public void stat_increase(string stat){

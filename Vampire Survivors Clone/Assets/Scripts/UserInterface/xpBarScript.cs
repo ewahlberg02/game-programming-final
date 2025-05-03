@@ -11,17 +11,6 @@ public class xpBarScript : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] Image experienceFill;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UpdateInterface()
     {
         float start = player.player_xp;
