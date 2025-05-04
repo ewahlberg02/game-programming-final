@@ -60,7 +60,7 @@ public class ChestManager : MonoBehaviour
                 nearestPosition = chest.transform.position;
             }
         }
-        Debug.Log("Nearest at " + nearestPosition);
+        //Debug.Log("Nearest at " + nearestPosition);
         indicator.transform.position = Vector3.MoveTowards(playerPos, nearestPosition, 0.75f);
         //float angle = Vector3.Angle(playerPos, nearestPosition);
         //Vector3 direction = new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0f);

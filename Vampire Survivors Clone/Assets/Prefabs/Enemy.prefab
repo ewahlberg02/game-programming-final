@@ -156,6 +156,11 @@ MonoBehaviour:
   size: 0.25
   attack_range: 0.25
   attack_cooldown: 0.5
+  attack_windup: 0.15
+  small_xp: {fileID: 506541923803237443, guid: 276fd839f5b691a478669d31201947f6, type: 3}
+  med_xp: {fileID: 8543866166580314876, guid: 1bfaade1f5107364b82c76ef223a405e, type: 3}
+  large_xp: {fileID: 3976922953441971620, guid: 7452dfc11991d8c40903aa7fdb4f5f96, type: 3}
+  xl_xp: {fileID: 3987580771602437690, guid: 963a286258c945047bb6a7623e074303, type: 3}
 --- !u!50 &-3904031402040248853
 Rigidbody2D:
   serializedVersion: 5

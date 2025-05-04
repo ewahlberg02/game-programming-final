@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         damage -= player_defense;
         Mathf.Clamp(damage, 0, 5000);
         player_current_health -= damage;
+        player_current_health = Mathf.Clamp(player_current_health, 0, player_max_health);
         hpBar.SetCurrentHealth();
     }
 
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour
         Mathf.Round(heal_amount);
         int heal = Convert.ToInt32(heal_amount);
         player_current_health += heal;
+        player_current_health = Mathf.Clamp(player_current_health, 0, player_max_health);
         hpBar.SetCurrentHealth();
     }
 
@@ -74,10 +76,11 @@ public class Player : MonoBehaviour
                 player_attack += increase_value_int;
                 break;
             case "speed":
-                player_speed += increase_value_float;
+                player_speed += increase_value_float/10f;
                 break;
             case "hp":
                 player_max_health += increase_value_int;
+                player_current_health += increase_value_int;
                 break;
             case "defense":
                 player_defense += increase_value_int;

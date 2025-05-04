@@ -27,7 +27,6 @@ public class xp_item : MonoBehaviour
         Vector3 item_position = gameObject.transform.position;
         float distance = Mathf.Sqrt(Mathf.Pow(item_position.x - player_position.x, 2) + Mathf.Pow(item_position.y - player_position.y, 2));
         Vector3 moveVector = player_position - item_position;
-        Debug.Log(moveVector);
 
         if (distance <= player.pickup_range){
             gameObject.transform.position += moveVector * Time.deltaTime * speed;
