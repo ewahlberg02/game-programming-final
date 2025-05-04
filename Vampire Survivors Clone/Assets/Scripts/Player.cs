@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] levelUp levelUpScreen;
     [SerializeField] xpBarScript XPBar;
     [SerializeField] HealthBar hpBar;
+    [SerializeField] GameOver dead;
     public float xp_need;
 
     void Start()
@@ -57,6 +58,10 @@ public class Player : MonoBehaviour
         player_current_health -= damage;
         player_current_health = Mathf.Clamp(player_current_health, 0, player_max_health);
         hpBar.SetCurrentHealth();
+        if(player_current_health == 0)
+        {
+            dead.endGame();
+        }
     }
 
     public void heal(float heal_amount){

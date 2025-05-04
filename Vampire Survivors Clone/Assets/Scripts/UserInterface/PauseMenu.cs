@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField] Player player;
     public static bool GamePaused = false;
     public GameObject pauseMenuUI;
 
@@ -10,12 +11,16 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(GamePaused)
+            if (player.player_current_health != 0)
             {
-                Resume();
-            }else
-            {
-                Pause();
+                if (GamePaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
