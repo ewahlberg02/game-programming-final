@@ -5,10 +5,12 @@ using UnityEngine;
 public class Axe : Weapon
 {
     private float cooldown = 0f;
+    private AudioSource itemAudio;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        itemAudio = GetComponent<AudioSource>();
         level = 1;
         damage = 30;
         fireRate = 2f;
@@ -32,6 +34,7 @@ public class Axe : Weapon
         canFire = false;
 
         Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
+        itemAudio.Play();
         proj.Direction = Vector3.up + new Vector3(UnityEngine.Random.Range(-2f,2f), 0);
         
         proj.Damage = damage + player.player_attack;

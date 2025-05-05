@@ -19,10 +19,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] xp_item med_xp;
     [SerializeField] xp_item large_xp;
     [SerializeField] xp_item xl_xp;
+    [SerializeField] DamagePopup popup;
+    [SerializeField] healthPot small_heal;
+    [SerializeField] healthPot med_heal;
+    [SerializeField] healthPot large_heal;
+    [SerializeField] healthPot xl_heal;
+
     private bool can_attack = true;
 
     private new SpriteRenderer renderer;
     private bool damage_indicator = false;
+    private AudioSource hitSound;
 
 
     GameObject player;
@@ -31,6 +38,7 @@ public class Enemy : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         renderer = gameObject.GetComponent<SpriteRenderer>();
+        hitSound = GetComponent<AudioSource>();
 
         health = max_health;
     }
@@ -93,6 +101,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int amount) {
         health -= amount;
+        hitSound.Play();
+        createDamagePopup(amount);
         if (health <= 0) {
             StartCoroutine(Die());
         }
@@ -101,6 +111,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void createDamagePopup(int damage){
+        DamagePopup newPopup = Instantiate(popup);
+        newPopup.initialize(damage);
+        newPopup.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1);
+        
+    }
     private IEnumerator DamagedIndication() {
         damage_indicator = true;
         renderer.color = Color.red;
@@ -118,8 +134,13 @@ public class Enemy : MonoBehaviour
             renderer.color = Color.Lerp(renderer.color, Color.clear, i/10.0f);
             yield return new WaitForSeconds(0.05f);
         }
+        spawnXP();
+        spawnHP();
+        Destroy(gameObject);
+    }
+
+    private void spawnXP(){
         float timeInLevel = Time.timeSinceLevelLoad;
-        Debug.Log(timeInLevel);
         if (timeInLevel < 180f){
             xp_item xp = Instantiate(small_xp, transform.position, transform.rotation);
             Debug.Log("xp dropped");
@@ -130,6 +151,21 @@ public class Enemy : MonoBehaviour
         } else if (timeInLevel > 1000.01f){
             xp_item xp = Instantiate(xl_xp, transform.position, transform.rotation);
         }
-        Destroy(gameObject);
+    }
+    private void spawnHP(){
+        float timeInLevel = Time.timeSinceLevelLoad;
+        float chance = UnityEngine.Random.Range(0, 1);
+        if (chance <= 0.1){
+            if (timeInLevel < 180f){
+                healthPot pot = Instantiate(small_heal, transform.position, transform.rotation);
+                Debug.Log("xp dropped");
+            } else if (timeInLevel > 180.01f && timeInLevel < 300f){
+                healthPot pot = Instantiate(med_heal, transform.position, transform.rotation);
+            } else if (timeInLevel > 300.01f  && timeInLevel < 1000f){
+                healthPot pot = Instantiate(large_heal, transform.position, transform.rotation);
+            } else if (timeInLevel > 1000.01f){
+                healthPot pot = Instantiate(xl_heal, transform.position, transform.rotation);
+            }
+        }
     }
 }

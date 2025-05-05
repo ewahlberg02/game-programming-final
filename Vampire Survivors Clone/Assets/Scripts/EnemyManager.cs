@@ -25,8 +25,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float stat_increm_interval = 8f;
     private float last_stat_increm = 0f;
 
-    [SerializeField] int base_max_health = 25;
-    [SerializeField] int base_damage = 4;
+    [SerializeField] int base_max_health = 15;
+    [SerializeField] int base_damage = 3;
     [SerializeField] float base_speed = 0.5f;
     [SerializeField] float base_size = 1f;
 
@@ -110,7 +110,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < spawns; i++) {
             Enemy enemy = Instantiate(enemyPrefab, RandomSpawnPoint(), quaternion.identity);
             int level = UnityEngine.Random.Range(4, 11);
-            int health_bump = level * 5;
+            int health_bump = level * 3;
             int damage_bump = level * 2;
             float speed_bump = -0.05f;
             float size_for_heavy = base_size + 0.3f;
@@ -127,7 +127,7 @@ public class EnemyManager : MonoBehaviour
         while (points > 20) {
             Enemy enemy = Instantiate(enemyPrefab, RandomSpawnPoint(), quaternion.identity);
             int level = UnityEngine.Random.Range(8, 16);
-            int health_bump = level * 10;
+            int health_bump = level * 5;
             int damage_bump = level * 3;
             float speed_bump = -0.1f;
             float size_for_adv = base_size + 0.8f;

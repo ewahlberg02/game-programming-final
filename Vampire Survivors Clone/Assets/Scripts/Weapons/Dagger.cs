@@ -4,10 +4,11 @@ using UnityEngine;
 public class Dagger : Weapon
 {
     private float cooldown = 0f;
-
+    private AudioSource itemAudio;
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        itemAudio = GetComponent<AudioSource>();
         level = 1;
         damage = 5;
         fireRate = 0.5f;
@@ -30,6 +31,7 @@ public class Dagger : Weapon
         canFire = false;
 
         Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
+        itemAudio.Play();
         proj.Direction = new Vector3(UnityEngine.Random.Range(-10f, 10f), UnityEngine.Random.Range(-10f, 10f), 0f);
         
         proj.Damage = damage + player.player_attack;

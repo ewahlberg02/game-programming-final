@@ -20,10 +20,12 @@ public class Player : MonoBehaviour
     [SerializeField] HealthBar hpBar;
     [SerializeField] GameOver dead;
     public float xp_need;
+    private AudioSource hitSound;
 
     void Start()
     {
-        initialize_stats();        
+        initialize_stats();
+        hitSound = GetComponent<AudioSource>();     
     }
 
     void Update()
@@ -54,6 +56,7 @@ public class Player : MonoBehaviour
 
     public void take_damage(int damage){
         damage -= player_defense;
+        hitSound.Play();
         Mathf.Clamp(damage, 0, 5000);
         player_current_health -= damage;
         player_current_health = Mathf.Clamp(player_current_health, 0, player_max_health);
@@ -78,7 +81,7 @@ public class Player : MonoBehaviour
         float increase_value_float = (float)player_level / 10;
         switch (stat){
             case "attack":
-                player_attack += increase_value_int;
+                player_attack += increase_value_int * 3;
                 break;
             case "speed":
                 player_speed += increase_value_float/10f;

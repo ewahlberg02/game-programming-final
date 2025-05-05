@@ -7,10 +7,11 @@ public class BowArrow : Weapon
 {
     private float cooldown = 0f;
     private int numArrows = 3;
-
+    private AudioSource itemAudio;
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        itemAudio = GetComponent<AudioSource>();
         level = 1;
         damage = 8;
         fireRate = 3f;
@@ -38,6 +39,7 @@ public class BowArrow : Weapon
     private IEnumerator fireArrow() {
         for (int i = 0; i < numArrows; i++) {
             Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
+            itemAudio.Play();
             double angle = i * (Math.PI * 2 / (double)numArrows);
             proj.Direction = new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0f);
             

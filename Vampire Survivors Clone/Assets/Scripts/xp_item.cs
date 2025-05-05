@@ -1,14 +1,23 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class xp_item : MonoBehaviour
 {
     [SerializeField] int xp_value;
-    [SerializeField] int speed = 1;
+    [SerializeField] int speed = 3;
+    private AudioSource itemAudio;
+    bool canDelete;
+
+    void Start()
+    {
+        itemAudio = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
         move_to_player();
+        canDelete = !itemAudio.isPlaying;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -17,7 +26,8 @@ public class xp_item : MonoBehaviour
         if (collidedObject.tag == "Player"){
             Player player = collidedObject.GetComponent<Player>();
             player.add_xp(xp_value);
-            Destroy(gameObject);
+            itemAudio.Play();
+            StartCoroutine(destroyXP());
         }
     }
 
@@ -31,5 +41,10 @@ public class xp_item : MonoBehaviour
         if (distance <= player.pickup_range){
             gameObject.transform.position += moveVector * Time.deltaTime * speed;
         }
+    }
+
+    IEnumerator destroyXP(){
+        yield return new WaitUntil(()  => canDelete);
+        Destroy(gameObject);
     }
 }

@@ -5,10 +5,12 @@ public class Shovel : Weapon
 {
     private float cooldown = 0f;
     private float quickCastChance = 0f;
-
+    private AudioSource itemAudio;
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        itemAudio = GetComponent<AudioSource>();
+
         level = 1;
         damage = 15;
         fireRate = 1f;
@@ -31,6 +33,8 @@ public class Shovel : Weapon
         canFire = false;
 
         Weapon_Projectile proj = Instantiate(projPrefab, transform.position, quaternion.identity);
+        itemAudio.Play();
+
         proj.transform.position += new Vector3(0, UnityEngine.Random.Range(-.05f, .05f));
         proj.Direction = Vector3.left;
         if (UnityEngine.Random.Range(0f, 1f) > 0.5f) {
