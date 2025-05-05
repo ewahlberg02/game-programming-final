@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WoodlandSurvivor Menu_0: 6826777582277526291
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
