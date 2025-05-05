@@ -11,6 +11,10 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] int points = 0;
     [SerializeField] float point_acrue_interval = 0.1f;
+    [SerializeField] float point_acrue_govenor_max = 0.3f;
+    float point_acrue_govenor = 0.3f;
+    [SerializeField] float point_acrue_govenor_falloff= 0.97f;
+
     private float last_acrue_time = 0f;
 
     [SerializeField] float min_spawn_interval = 0.66f;
@@ -37,19 +41,24 @@ public class EnemyManager : MonoBehaviour
     private GameObject player;
     [SerializeField] float dist_away = 2f;
 
+    [SerializeField] int max_enemies = 25;
+    int num_enemeis;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        RestartGovenor();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.timeSinceLevelLoad > last_acrue_time + point_acrue_interval) {
+        if(Time.timeSinceLevelLoad > last_acrue_time + point_acrue_interval + point_acrue_govenor) {
             last_acrue_time = Time.timeSinceLevelLoad;
             points += 1;
+            CalculateRemainingGovenor();
         }
 
         if(Time.timeSinceLevelLoad > last_stat_increm + stat_increm_interval) {
@@ -69,7 +78,14 @@ public class EnemyManager : MonoBehaviour
 
     private void DecideSpawn() {
         if (Time.timeSinceLevelLoad < last_spawn_time + min_spawn_interval) {
-            DecideSpecialSpawn();
+            //DecideSpecialSpawn();
+            return;
+        }
+
+        if (points < 5) {
+            return;
+        }
+        if (points < 250 && num_enemeis >= max_enemies) {
             return;
         }
 
@@ -101,6 +117,7 @@ public class EnemyManager : MonoBehaviour
         enemy.GetComponent<Enemy>().SetStats(level, base_max_health, base_damage, base_speed, base_size);
         enemy.GetComponent<SpriteRenderer>().sprite = enemySprites[UnityEngine.Random.Range(0, enemySprites.Length)];
         points -= level;
+        num_enemeis++;
     }
 
     private void HeavySpawn() {
@@ -111,12 +128,14 @@ public class EnemyManager : MonoBehaviour
             Enemy enemy = Instantiate(enemyPrefab, RandomSpawnPoint(), quaternion.identity);
             int level = UnityEngine.Random.Range(4, 11);
             int health_bump = level * 3;
-            int damage_bump = level * 2;
-            float speed_bump = -0.05f;
+            int damage_bump = level;
+            float speed_bump = -0.06f;
             float size_for_heavy = base_size + 0.3f;
             enemy.GetComponent<Enemy>().SetStats(level, base_max_health + health_bump, base_damage + damage_bump, base_speed + speed_bump, size_for_heavy);
             enemy.GetComponent<SpriteRenderer>().sprite = enemySprites[UnityEngine.Random.Range(0, enemySprites.Length)];
             points -= level;
+
+            num_enemeis++;
         }
     }
 
@@ -128,18 +147,20 @@ public class EnemyManager : MonoBehaviour
             Enemy enemy = Instantiate(enemyPrefab, RandomSpawnPoint(), quaternion.identity);
             int level = UnityEngine.Random.Range(8, 16);
             int health_bump = level * 5;
-            int damage_bump = level * 3;
-            float speed_bump = -0.1f;
+            int damage_bump = level * 2;
+            float speed_bump = -0.11f;
             float size_for_adv = base_size + 0.8f;
             enemy.GetComponent<Enemy>().SetStats(level, base_max_health + health_bump, base_damage + damage_bump, base_speed + speed_bump, size_for_adv);
             enemy.GetComponent<SpriteRenderer>().sprite = advEnemySprites[chosen_sprite_index];
             points -= level * 5;
+            num_enemeis++;
         }
         while(points > 0) {
             BasicSpawn();
         }
 
         points = 0;
+        RestartGovenor();
     }
 
     private Vector3 RandomSpawnPoint() {
@@ -147,5 +168,21 @@ public class EnemyManager : MonoBehaviour
         float x = player.transform.position.x + dist_away * Mathf.Cos(angle);
         float y = player.transform.position.y + dist_away * Mathf.Sin(angle);
         return new Vector3(x, y, 0f);
+    }
+
+    private void RestartGovenor() {
+        point_acrue_govenor = point_acrue_govenor_max;
+    }
+
+    private void CalculateRemainingGovenor() {
+        point_acrue_govenor *= point_acrue_govenor_falloff;
+        if (point_acrue_govenor <= 0.0001)
+            point_acrue_govenor = 0f;
+        else
+            point_acrue_govenor = Mathf.Clamp(point_acrue_govenor, 0f, point_acrue_govenor_max);
+    }
+
+    public void DeductEnemy() {
+        num_enemeis--;
     }
 }

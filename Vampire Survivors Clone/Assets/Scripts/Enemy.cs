@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     private new SpriteRenderer renderer;
     private bool damage_indicator = false;
     private AudioSource hitSound;
+    private EnemyManager manager;
 
 
     GameObject player;
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
         hitSound = GetComponent<AudioSource>();
 
         health = max_health;
+        manager = GameObject.FindFirstObjectByType<EnemyManager>().GetComponent<EnemyManager>();
     }
 
     // Update is called once per frame
@@ -60,6 +62,7 @@ public class Enemy : MonoBehaviour
 
         if (dist_away > 5.0f) {
             Destroy(gameObject);
+            manager.DeductEnemy();
         }
     }
 
@@ -134,38 +137,48 @@ public class Enemy : MonoBehaviour
             renderer.color = Color.Lerp(renderer.color, Color.clear, i/10.0f);
             yield return new WaitForSeconds(0.05f);
         }
-        spawnXP();
-        spawnHP();
+        int drop_amount =  Mathf.CeilToInt(level / 4f);
+        for (int i = 0; i < drop_amount; i++) {
+            spawnXP();
+            spawnHP();
+        }
+
+        manager.DeductEnemy();
         Destroy(gameObject);
     }
 
     private void spawnXP(){
         float timeInLevel = Time.timeSinceLevelLoad;
+
         if (timeInLevel < 180f){
-            xp_item xp = Instantiate(small_xp, transform.position, transform.rotation);
-            Debug.Log("xp dropped");
-        } else if (timeInLevel > 180.01f && timeInLevel < 300f){
-            xp_item xp = Instantiate(med_xp, transform.position, transform.rotation);
-        } else if (timeInLevel > 300.01f  && timeInLevel < 1000f){
-            xp_item xp = Instantiate(large_xp, transform.position, transform.rotation);
-        } else if (timeInLevel > 1000.01f){
-            xp_item xp = Instantiate(xl_xp, transform.position, transform.rotation);
+            xp_item xp = Instantiate(small_xp, CalculateDropPosition(), transform.rotation);
+        } else if (timeInLevel < 300f){
+            xp_item xp = Instantiate(med_xp, CalculateDropPosition(), transform.rotation);
+        } else if (timeInLevel < 600f){
+            xp_item xp = Instantiate(large_xp, CalculateDropPosition(), transform.rotation);
+        } else {
+            xp_item xp = Instantiate(xl_xp, CalculateDropPosition(), transform.rotation);
         }
     }
     private void spawnHP(){
         float timeInLevel = Time.timeSinceLevelLoad;
-        float chance = UnityEngine.Random.Range(0, 1);
+        float chance = UnityEngine.Random.Range(0f, 1f);
         if (chance <= 0.1){
             if (timeInLevel < 180f){
-                healthPot pot = Instantiate(small_heal, transform.position, transform.rotation);
-                Debug.Log("xp dropped");
-            } else if (timeInLevel > 180.01f && timeInLevel < 300f){
-                healthPot pot = Instantiate(med_heal, transform.position, transform.rotation);
-            } else if (timeInLevel > 300.01f  && timeInLevel < 1000f){
-                healthPot pot = Instantiate(large_heal, transform.position, transform.rotation);
-            } else if (timeInLevel > 1000.01f){
-                healthPot pot = Instantiate(xl_heal, transform.position, transform.rotation);
+                healthPot pot = Instantiate(small_heal, CalculateDropPosition(), transform.rotation);
+            } else if (timeInLevel < 300f){
+                healthPot pot = Instantiate(med_heal, CalculateDropPosition(), transform.rotation);
+            } else if (timeInLevel < 600f){
+                healthPot pot = Instantiate(large_heal, CalculateDropPosition(), transform.rotation);
+            } else {
+                healthPot pot = Instantiate(xl_heal, CalculateDropPosition(), transform.rotation);
             }
         }
+    }
+
+    private Vector3 CalculateDropPosition() {
+        float offsetX = UnityEngine.Random.Range(-0.15f, 0.15f);
+        float offsetY = UnityEngine.Random.Range(-0.15f, 0.15f);
+        return new Vector3(transform.position.x + offsetX, transform.position.y + offsetY, 0);
     }
 }

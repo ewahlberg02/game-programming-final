@@ -15,12 +15,18 @@ public class Player : MonoBehaviour
     public int player_xp;
     public int player_level;
     public float pickup_range;
+    private float regen_interval;
     [SerializeField] levelUp levelUpScreen;
     [SerializeField] xpBarScript XPBar;
     [SerializeField] HealthBar hpBar;
     [SerializeField] GameOver dead;
     public float xp_need;
     private AudioSource hitSound;
+
+    private float time_last_hit = 0f;
+    private float invincibility_time = 0.2f;
+
+    private float time_last_regen = 0f;
 
     void Start()
     {
@@ -32,6 +38,7 @@ public class Player : MonoBehaviour
     {
         xp_need = xp_to_level();
         player_movement();
+        player_regeneration();
     }
 
     void player_movement(){
@@ -42,19 +49,33 @@ public class Player : MonoBehaviour
         transform.position += playerMoveVector * Time.deltaTime * player_speed;
     }
 
+    void player_regeneration() {
+        if (Time.timeSinceLevelLoad > time_last_regen + regen_interval) {
+            time_last_regen = Time.timeSinceLevelLoad;
+
+            heal(player_max_health / 100);
+        }
+    }
+
     public void initialize_stats(){
-        player_max_health = 10;
+        player_max_health = 100;
         player_current_health = player_max_health;
         player_defense = 1;
         player_speed = 1;
         player_attack = 1;
         player_heal_modifier = 1.0f;
         pickup_range = 0.75f;
+        regen_interval = 2f;
         player_level = 1;
         hpBar.SetMaxHealth();
     }
 
     public void take_damage(int damage){
+        if (Time.timeSinceLevelLoad < time_last_hit + invincibility_time) {
+            return;
+        }
+        time_last_hit = Time.timeSinceLevelLoad;
+
         damage -= player_defense;
         hitSound.Play();
         Mathf.Clamp(damage, 0, 5000);
@@ -87,11 +108,11 @@ public class Player : MonoBehaviour
                 player_speed += increase_value_float/10f;
                 break;
             case "hp":
-                player_max_health += increase_value_int;
-                player_current_health += increase_value_int;
+                player_max_health += increase_value_int * 15;
+                player_current_health += increase_value_int * 15;
                 break;
             case "defense":
-                player_defense += increase_value_int;
+                player_defense += increase_value_int * 2;
                 break;
             case "pickup":
                 pickup_range += increase_value_float;
@@ -120,7 +141,7 @@ public class Player : MonoBehaviour
     }
 
     public float xp_to_level(){
-        float xp_needed = Mathf.Pow(player_level, 2); 
+        float xp_needed = Mathf.Pow(player_level, 2) + 3 - player_level; 
         return xp_needed;
     }
 }
